@@ -6,10 +6,12 @@ import { db } from "@/database/drizzle";
 import { users } from "@/database/schema";
 import { eq } from "drizzle-orm";
 
-interface Props extends Book {
+interface Props extends books {
   userId: string;
+  author: string; // Add this line if 'author' is not in Book
 }
 const BookOverview = async ({
+  videoUrl,
   title,
   author,
   genre,

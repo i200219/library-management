@@ -5,13 +5,14 @@
         "author": "Keith J. Grant",
         "genre": "Web Development",
         "rating": 4,
-        "coverUrl": "https://ik.imagekit.io/pwd17k26p/books/covers/file_zIgYlIxcY.png",
+        "coverUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.manning.com%2Fbooks%2Fcss-in-depth-second-edition&psig=AOvVaw15-QnuGx5TkHsd119cRCYa&ust=1752120130171000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKiJz6Lyro4DFQAAAAAdAAAAABAE",
         "coverColor": "#1e2a4b",
         "description": "CSS in Depth by Keith J. Grant is a comprehensive guide for web developers who want to go beyond the basics of CSS and master the intricacies of styling web pages. The book is designed for intermediate to advanced developers who are already familiar with CSS but want to deepen their understanding and leverage its full potential.",
         "totalCopies": 18,
         "availableCopies": 16,
         "videoUrl": "https://ik.imagekit.io/pwd17k26p/books/videos/file_O-O0Z_Vz5.png",
         "summary": "CSS in Depth starts by reviewing the basic principles of CSS, then quickly moves on to more advanced concepts. Grant emphasizes the importance of understanding the underlying mechanics of CSS properties like layout, box model, and positioning. Readers learn how to use these tools more effectively, making their code more predictable and easier to debug.\n\nThe book dedicates significant time to discussing modern layout systems, especially Flexbox and CSS Grid. These powerful tools enable developers to create complex, responsive designs with minimal code. Grant explains how to use them in different contexts, providing practical examples of when and why they are useful.\n\nOne of the book’s highlights is its in-depth coverage of animations and transitions. Readers learn how to add dynamic effects to their web pages without relying on JavaScript. This is especially useful for creating smooth, interactive designs that improve user experience.\n\nThe book also discusses CSS preprocessors and methodologies like BEM (Block Element Modifier), teaching developers how to structure their stylesheets for larger projects. Grant encourages best practices such as keeping CSS DRY (Don’t Repeat Yourself) and modularizing code.\n\nBy the end of the book, readers will have the knowledge and confidence to tackle complex CSS challenges and create stunning web interfaces with efficiency and elegance."
+        
     },
     {
         "id": "350c3bc8-a5cc-45a3-ba16-97b93ed056b0",

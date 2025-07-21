@@ -1,4 +1,4 @@
-interface Book {
+interface books {
   id: string;
   title: string;
   author: string;
@@ -12,6 +12,8 @@ interface Book {
   videoUrl: string;
   summary: string;
   createdAt: Date | null;
+  isLoanedBook?: boolean;
+  userId?: string;
 }
 
 interface AuthCredentials {
@@ -19,7 +21,6 @@ interface AuthCredentials {
   email: string;
   password: string;
   universityId: number;
-  universityCard: string;
 }
 
 interface BookParams {

@@ -3,12 +3,18 @@ import BookCard from "@/components/BookCard";
 
 interface Props {
   title: string;
-  books: Book[];
+  books: books[];
   containerClassName?: string;
 }
 
 const BookList = ({ title, books, containerClassName }: Props) => {
-  if (books.length < 2) return;
+  if (!books || books.length === 0) {
+    return (
+      <div className="text-center py-20">
+        <p className="text-xl text-light-100">No books available</p>
+      </div>
+    );
+  }
 
   return (
     <section className={containerClassName}>
@@ -16,10 +22,11 @@ const BookList = ({ title, books, containerClassName }: Props) => {
 
       <ul className="book-list">
         {books.map((book) => (
-          <BookCard key={book.title} {...book} />
+          <BookCard key={book.id} {...book} />
         ))}
       </ul>
     </section>
   );
 };
+
 export default BookList;

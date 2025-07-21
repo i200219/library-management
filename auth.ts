@@ -16,26 +16,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        const user = await db
-          .select()
-          .from(users)
-          .where(eq(users.email, credentials.email.toString()))
-          .limit(1);
+        try {
+          const user = await db
+            .select()
+            .from(users)
+            .where(eq(users.email, credentials.email.toString()))
+            .limit(1);
 
-        if (user.length === 0) return null;
+          if (user.length === 0) {
+            return null;
+          }
 
-        const isPasswordValid = await compare(
-          credentials.password.toString(),
-          user[0].password,
-        );
+          // Check user status
+          if (user[0].status !== 'APPROVED') {
+            return null;
+          }
 
-        if (!isPasswordValid) return null;
+          const isPasswordValid = await compare(
+            credentials.password.toString(),
+            user[0].password,
+          );
 
-        return {
-          id: user[0].id.toString(),
-          email: user[0].email,
-          name: user[0].fullName,
-        } as User;
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          return {
+            id: user[0].id.toString(),
+            email: user[0].email,
+            name: user[0].fullName,
+            role: user[0].role,
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
+          return null;
+        }
       },
     }),
   ],
