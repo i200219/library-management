@@ -19,10 +19,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/FileUpload";
 import ColorPicker from "@/components/admin/ColorPicker";
-import { createBook } from "@/lib/admin/actions/book";
+import { createBook } from "@/lib/actions/book";
 import { toast } from "@/hooks/use-toast";
+import { books } from "@/database/schema";
+import { useEffect, useRef, useCallback } from "react";
 
-interface Props extends Partial<Book> {
+interface Props extends Partial<typeof books.$inferSelect> {
   type?: "create" | "update";
 }
 
@@ -32,41 +34,105 @@ const BookForm = ({ type, ...book }: Props) => {
   const form = useForm<z.infer<typeof bookSchema>>({
     resolver: zodResolver(bookSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      author: "",
-      genre: "",
-      rating: 1,
-      totalCopies: 1,
-      coverUrl: "",
-      coverColor: "",
-      videoUrl: "",
-      summary: "",
+      title: book?.title || "",
+      description: book?.description || "Book description",
+      author: book?.author || "",
+      genre: book?.genre || "",
+      rating: book?.rating || 1,
+      totalCopies: book?.totalCopies || 1,
+      coverUrl: book?.coverUrl || "https://via.placeholder.com/300x450",
+      coverColor: book?.coverColor || "#ffffff",
+      videoUrl: book?.videoUrl || "",
+      summary: book?.summary || "Book summary",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof bookSchema>) => {
-    const result = await createBook(values);
+  const formRef = useRef<HTMLFormElement>(null);
 
-    if (result.success) {
-      toast({
-        title: "Success",
-        description: "Book created successfully",
-      });
+  const onSubmit = useCallback(async (values: z.infer<typeof bookSchema>) => {
+    console.log("Form submission started");
+    console.log("Raw form values:", values);
+    
+    try {
+      // Ensure all required fields have values
+      const bookValues = {
+        ...values,
+        coverUrl: values.coverUrl || "https://via.placeholder.com/300x450",
+        coverColor: values.coverColor || "#ffffff",
+        videoUrl: values.videoUrl || "",
+        summary: values.summary || "Book summary",
+        description: values.description || "Book description"
+      };
 
-      router.push(`/admin/books/${result.data.id}`);
-    } else {
+      console.log("Processed book values:", bookValues);
+      
+      const result = await createBook(bookValues);
+      console.log("Create book result:", result);
+
+      if (result.success) {
+        console.log("Book creation successful");
+        toast({
+          title: type === "create" ? "Success" : "Updated",
+          description: type === "create" 
+            ? "Book created successfully" 
+            : "Book updated successfully",
+        });
+
+        if (result.data?.id) {
+          console.log("Redirecting to book page with ID:", result.data.id);
+          router.push(`/admin/books/${result.data.id}`);
+        } else {
+          console.error("No book ID returned from createBook");
+          toast({
+            title: "Error",
+            description: "Failed to get book ID after creation",
+            variant: "destructive",
+          });
+        }
+      } else {
+        console.error("Create book failed:", result.message);
+        toast({
+          title: type === "create" ? "Error" : "Failed to update",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
       toast({
         title: "Error",
-        description: result.message,
+        description: "An unexpected error occurred",
         variant: "destructive",
       });
     }
-  };
+  }, [router, type]);
+
+  useEffect(() => {
+    const handleSubmit = (e: SubmitEvent) => {
+      e.preventDefault();
+      console.log("Form submit event detected");
+      form.handleSubmit(onSubmit)();
+    };
+
+    const formElement = formRef.current;
+    if (formElement) {
+      formElement.addEventListener('submit', handleSubmit);
+    }
+
+    return () => {
+      if (formElement) {
+        formElement.removeEventListener('submit', handleSubmit);
+      }
+    };
+  }, [form, onSubmit]);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form 
+        onSubmit={form.handleSubmit(onSubmit)} 
+        className="space-y-8"
+        ref={formRef}
+      >
         <FormField
           control={form.control}
           name={"title"}
@@ -283,7 +349,7 @@ const BookForm = ({ type, ...book }: Props) => {
         />
 
         <Button type="submit" className="book-form_btn text-white">
-          Add Book to Library
+          {type === "create" ? "Add Book to Library" : "Update Book"}
         </Button>
       </form>
     </Form>

@@ -40,3 +40,8 @@ interface BorrowBookParams {
   bookId: string;
   userId: string;
 }
+export interface CreateBookResponse {
+  success: boolean;
+  data?: books;
+  message: string;
+}
