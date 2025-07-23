@@ -5,27 +5,32 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-const BookCard = ({
-  id,
-  title,
-  genre,
-  coverColor,
-  coverUrl,
-  isLoanedBook = false,
-}: books) => (
-  <li className={cn(isLoanedBook && "xs:w-52 w-full")}>
-    <Link
-      href={`/books/${id}`}
-      className={cn(isLoanedBook && "w-full flex flex-col items-center")}
-    >
-      <BookCover coverColor={coverColor} coverImage={coverUrl} />
+interface Book {
+  id: string;
+  title: string;
+  genre: string;
+  coverColor: string;
+  coverUrl: string;
+}
 
-      <div className={cn("mt-4", !isLoanedBook && "xs:max-w-40 max-w-28")}>
-        <p className="book-title">{title}</p>
-        <p className="book-genre">{genre}</p>
+interface BookCardProps extends Book {
+  isLoanedBook?: boolean;
+}
+
+const BookCard = (props: BookCardProps) => (
+  <li className={cn(props.isLoanedBook && "xs:w-52 w-full")}>
+    <Link
+      href={`/books/${props.id}`}
+      className={cn(props.isLoanedBook && "w-full flex flex-col items-center")}
+    >
+      <BookCover coverColor={props.coverColor} coverImage={props.coverUrl} />
+
+      <div className={cn("mt-4", !props.isLoanedBook && "xs:max-w-40 max-w-28")}>
+        <p className="book-title">{props.title}</p>
+        <p className="book-genre">{props.genre}</p>
       </div>
 
-      {isLoanedBook && (
+      {props.isLoanedBook && (
         <div className="mt-3 w-full">
           <div className="book-loaned">
             <Image
