@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/Footer";
 
 import localFont from "next/font/local";
 import { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const ibmPlexSans = localFont({
   src: [
@@ -25,23 +27,22 @@ const bebasNeue = localFont({
 
 export const metadata: Metadata = {
   title: "Library System",
-  description:
-    "Library System is a book borrowing university library management solution.",
+  description: "Library System is a book borrowing university library management solution.",
 };
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <SessionProvider session={session}>
-        <body
-          className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased`}
-        >
-          {children}
-
-          <Toaster />
-        </body>
+        <ThemeProvider defaultTheme="dark" storageKey="library-theme">
+          <body className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased`}>
+            {children}
+            <Footer />
+            <Toaster />
+          </body>
+        </ThemeProvider>
       </SessionProvider>
     </html>
   );

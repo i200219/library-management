@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  
   images: {
+    domains: ['localhost'],
     remotePatterns: [
       {
         protocol: "https",
@@ -18,6 +20,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  i18n: {
+    locales: ['en', 'fr'],
+    defaultLocale: 'en',
+    
+  },
+  
   typescript: {
     ignoreBuildErrors: true,
   },

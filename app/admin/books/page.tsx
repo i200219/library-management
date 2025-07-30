@@ -6,8 +6,26 @@ import Link from "next/link";
 import BookList from "@/components/BookList";
 import { useRouter } from "next/navigation";
 
+interface Book {
+  id: string;
+  title: string;
+  author: string;
+  genre: string;
+  rating: number;
+  coverUrl: string;
+  coverColor: string;
+  description: string;
+  totalCopies: number;
+  availableCopies: number;
+  videoUrl: string;
+  summary: string;
+  createdAt: string;
+  borrowDate?: string;
+  dueDate?: string;
+}
+
 const ManageBooksPage = () => {
-  const [books, setBooks] = useState<any[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -29,18 +47,9 @@ const ManageBooksPage = () => {
     fetchBooks();
   }, []);
 
-  const handleBookClick = async (book: any) => {
-    // Fetch borrow status for the book
-    const res = await fetch(`/api/books/${book.id}/borrow-status`);
-    const borrowInfo = res.ok ? await res.json() : null;
-
-    // Show details in a modal (simple implementation)
-    alert(
-      `Title: ${book.title}\n` +
-        `Author: ${book.author}\n` +
-        `Borrowed: ${borrowInfo?.isBorrowed ? "Yes" : "No"}\n` +
-        (borrowInfo?.isBorrowed ? `Due Date: ${borrowInfo.dueDate}` : "")
-    );
+  const handleBookClick = async (book: Book) => {
+    // Navigate to the book details page for admin
+    router.push(`/admin/books/${book.id}`);
   };
 
   return (

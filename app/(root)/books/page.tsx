@@ -1,13 +1,19 @@
 import BookOverview from "@/components/BookOverview";
 import BookGrid from "@/components/BookGrid";
 import { auth } from "@/auth";
+import { headers } from "next/headers";
 
 export default async function Home() {
   const session = await auth();
   const userId = session?.user?.id ?? "";
 
+  const headersList = await headers();
+  const host = headersList.get("host");
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const baseUrl = `${protocol}://${host}`;
+
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/books`, {
+    const response = await fetch(`${baseUrl}/api/books`, {
       next: { revalidate: 60 },
     });
 
@@ -24,15 +30,14 @@ export default async function Home() {
         </div>
       );
     }
-
     return (
       <main className="flex min-h-screen flex-col items-center p-24">
         <BookOverview
           {...latestBooks[0]}
           userId={userId}
         />
-        
-         <BookGrid 
+
+         <BookGrid
           books={latestBooks.slice(1)}
           userId={userId}
           user={session?.user}
@@ -48,3 +53,4 @@ export default async function Home() {
     );
   }
 };
+
