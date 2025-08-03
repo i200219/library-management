@@ -74,6 +74,7 @@ interface BookRequest {
   userName: string;
   bookId: string;
   bookTitle: string;
+  bookCoverUrl?: string;
   borrowDate: string | Date;
   dueDate: string | Date;
   status: 'PENDING' | 'APPROVED' | 'REJECTED';
@@ -83,5 +84,38 @@ interface BookRequest {
 export interface CreateBookResponse {
   success: boolean;
   data?: books;
+  message: string;
+}
+
+interface ReservationParams {
+  bookId: string;
+  userId: string;
+}
+
+interface Reservation {
+  id: string;
+  userId: string;
+  bookId: string;
+  reservationDate: string | Date;
+  expiryDate: string | Date;
+  status: 'ACTIVE' | 'FULFILLED' | 'CANCELLED' | 'EXPIRED';
+  priorityPosition: number;
+  createdAt: string | Date | null;
+  updatedAt: string | Date | null;
+  // Joined fields
+  userName?: string;
+  bookTitle?: string;
+  bookAuthor?: string;
+}
+
+interface ReservationResponse {
+  success: boolean;
+  data?: Reservation;
+  message: string;
+  queuePosition?: number;
+}
+
+interface DeleteBookResponse {
+  success: boolean;
   message: string;
 }

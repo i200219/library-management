@@ -33,6 +33,11 @@ export const adminSideBarLinks = [
     route: "/admin/book-requests",
     text: "Borrow Requests",
   },
+  {
+    img: "/icons/calendar.svg",
+    route: "/admin/reservations",
+    text: "Reservations",
+  },
   // {
   //   img: "/icons/admin/user.svg",
   //   route: "/admin/account-requests",

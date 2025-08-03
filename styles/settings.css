@@ -1,0 +1,233 @@
+/* Settings Page Enhancements */
+
+/* Mobile-first responsive design for settings */
+.settings-container {
+  @apply min-h-screen bg-dark-100 p-3 sm:p-6 md:p-12;
+}
+
+.settings-content {
+  @apply max-w-4xl mx-auto;
+}
+
+/* Enhanced settings sections */
+.settings-section {
+  @apply bg-dark-300/80 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-dark-200/50 transition-all duration-200 hover:border-dark-200/70;
+}
+
+.settings-section-header {
+  @apply flex items-center gap-3 mb-4 sm:mb-6;
+}
+
+.settings-section-icon {
+  @apply p-2 bg-primary/10 rounded-lg transition-colors duration-200;
+}
+
+.settings-section-title {
+  @apply text-lg sm:text-2xl font-semibold text-white;
+}
+
+/* Toggle enhancements */
+.settings-toggle-container {
+  @apply flex items-start justify-between gap-4 py-3 px-2 -mx-2 rounded-lg transition-colors duration-200 hover:bg-dark-200/30;
+}
+
+.settings-toggle-content {
+  @apply flex-1 space-y-1;
+}
+
+.settings-toggle-label {
+  @apply text-sm sm:text-base font-medium text-white cursor-pointer leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+}
+
+.settings-toggle-description {
+  @apply text-xs sm:text-sm text-light-100 leading-relaxed;
+}
+
+/* Radio button enhancements */
+.settings-radio-container {
+  @apply flex items-center justify-between py-2 px-2 -mx-2 rounded-lg transition-colors duration-200 hover:bg-dark-200/30;
+}
+
+.settings-radio-content {
+  @apply flex items-center gap-3;
+}
+
+.settings-radio-input {
+  @apply w-4 h-4 text-primary bg-dark-200 border-dark-100 focus:ring-primary focus:ring-2 transition-all duration-200;
+}
+
+.settings-radio-label {
+  @apply text-sm sm:text-base text-light-100 cursor-pointer transition-colors duration-200;
+}
+
+/* Select enhancements */
+.settings-select {
+  @apply w-full px-3 sm:px-4 py-2 sm:py-3 bg-dark-200 text-light-100 rounded-lg border border-dark-100 focus:ring-2 focus:ring-primary focus:border-transparent text-sm sm:text-base transition-all duration-200 hover:border-dark-100/70;
+}
+
+/* Button enhancements */
+.settings-button-primary {
+  @apply flex-1 sm:flex-none min-h-12 sm:min-h-14 text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98];
+}
+
+.settings-button-secondary {
+  @apply flex-1 sm:flex-none min-h-12 sm:min-h-14 text-sm sm:text-base transition-all duration-200 hover:scale-[1.02] active:scale-[0.98];
+}
+
+/* Loading states */
+.settings-loading {
+  @apply opacity-50 pointer-events-none;
+}
+
+.settings-saving {
+  @apply animate-pulse;
+}
+
+/* Badge styles */
+.settings-badge {
+  @apply text-xs text-primary bg-primary/10 px-2 py-1 rounded-full;
+}
+
+/* Account info enhancements */
+.settings-account-item {
+  @apply flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 py-2 px-2 -mx-2 rounded-lg transition-colors duration-200 hover:bg-dark-200/30;
+}
+
+.settings-account-label {
+  @apply text-sm sm:text-base text-light-100 min-w-20;
+}
+
+.settings-account-value {
+  @apply font-medium text-white text-sm sm:text-base break-all;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 640px) {
+  .settings-section {
+    @apply p-4 rounded-xl;
+  }
+  
+  .settings-section-header {
+    @apply mb-4;
+  }
+  
+  .settings-section-icon {
+    @apply p-2;
+  }
+  
+  .settings-section-title {
+    @apply text-lg;
+  }
+  
+  .settings-toggle-container {
+    @apply py-4 gap-3;
+  }
+  
+  .settings-radio-container {
+    @apply py-3;
+  }
+  
+  .settings-account-item {
+    @apply py-3;
+  }
+}
+
+/* Touch improvements for mobile */
+@media (hover: none) and (pointer: coarse) {
+  .settings-toggle-container,
+  .settings-radio-container,
+  .settings-account-item {
+    @apply min-h-12;
+  }
+  
+  .settings-radio-input {
+    @apply w-5 h-5;
+  }
+  
+  .settings-select {
+    @apply min-h-12;
+  }
+}
+
+/* Focus improvements for accessibility */
+.settings-radio-input:focus,
+.settings-select:focus {
+  @apply ring-2 ring-primary ring-offset-2 ring-offset-dark-100;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .settings-section {
+    @apply border-2 border-light-100/20;
+  }
+  
+  .settings-toggle-label,
+  .settings-radio-label,
+  .settings-account-label {
+    @apply text-white;
+  }
+  
+  .settings-toggle-description {
+    @apply text-light-100;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .settings-section,
+  .settings-toggle-container,
+  .settings-radio-container,
+  .settings-account-item,
+  .settings-button-primary,
+  .settings-button-secondary,
+  .settings-select,
+  .settings-radio-input {
+    @apply transition-none;
+  }
+  
+  .settings-button-primary:hover,
+  .settings-button-secondary:hover {
+    @apply scale-100;
+  }
+  
+  .settings-saving {
+    @apply animate-none;
+  }
+}
+
+/* Dark mode specific enhancements */
+.dark .settings-section {
+  @apply bg-dark-300/90 border-dark-200/60;
+}
+
+.dark .settings-toggle-container:hover,
+.dark .settings-radio-container:hover,
+.dark .settings-account-item:hover {
+  @apply bg-dark-200/40;
+}
+
+/* Light mode support (if needed) */
+.light .settings-section {
+  @apply bg-white/90 border-gray-200/60;
+}
+
+.light .settings-toggle-label,
+.light .settings-radio-label,
+.light .settings-account-label,
+.light .settings-section-title {
+  @apply text-gray-900;
+}
+
+.light .settings-toggle-description {
+  @apply text-gray-600;
+}
+
+.light .settings-account-value {
+  @apply text-gray-900;
+}
+
+.light .settings-toggle-container:hover,
+.light .settings-radio-container:hover,
+.light .settings-account-item:hover {
+  @apply bg-gray-100/40;
+}

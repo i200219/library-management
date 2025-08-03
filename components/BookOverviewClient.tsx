@@ -5,6 +5,7 @@ import Image from "next/image";
 import BookCover from "@/components/BookCover";
 import BorrowBook from "@/components/BorrowBook";
 import ReturnBook from "@/components/ReturnBook";
+import ReserveBook from "@/components/ReserveBook";
 import BookAvailabilityStatus from "@/components/BookAvailabilityStatus";
 import { useBookAvailability } from "@/hooks/useBookAvailability";
 import { useUserBorrowStatus } from "@/hooks/useUserBorrowStatus";
@@ -175,12 +176,23 @@ const BookOverviewClient = ({
                     />
                   </div>
                 ) : (
-                  <BorrowBook
-                    bookId={id}
-                    userId={userId}
-                    borrowingEligibility={borrowingEligibility}
-                    onBorrowSuccess={handleBorrowSuccess}
-                  />
+                  <div className="space-y-3">
+                    <BorrowBook
+                      bookId={id}
+                      userId={userId}
+                      borrowingEligibility={borrowingEligibility}
+                      onBorrowSuccess={handleBorrowSuccess}
+                    />
+                    
+                    {/* Show reserve button if book is not available */}
+                    {availabilityStatus && !availabilityStatus.isAvailable && (
+                      <ReserveBook
+                        bookId={id}
+                        bookTitle={title}
+                        isAvailable={availabilityStatus.isAvailable}
+                      />
+                    )}
+                  </div>
                 )}
               </>
             )}

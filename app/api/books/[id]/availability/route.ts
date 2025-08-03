@@ -20,10 +20,10 @@ export interface BookAvailabilityStatus {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const bookId = params.id;
+    const { id: bookId } = await params;
 
     // Get book information
     const [book] = await db

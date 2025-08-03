@@ -11,6 +11,13 @@ import { redirect } from "next/navigation";
 import { workflowClient } from "@/lib/workflow";
 import config from "@/lib/config";
 
+interface AuthCredentials {
+  fullName: string;
+  email: string;
+  password: string;
+  universityId: number;
+}
+
 export const signInWithCredentials = async (
   params: Pick<AuthCredentials, "email" | "password">,
 ) => {
@@ -163,7 +170,7 @@ export const createAdmin = async (params: AuthCredentials) => {
       universityId,
       password: hashedPassword,
       status: "APPROVED", // Set to APPROVED for testing
-      role: "USER", // Set to user role
+      role: "ADMIN", // Set to ADMIN role
     });
 
     if (!result) {

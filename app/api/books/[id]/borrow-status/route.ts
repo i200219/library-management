@@ -11,6 +11,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
     return NextResponse.json({ error: "User ID is required" }, { status: 400 });
   }
 
+  const { id } = await params;
+
   // Check if the specific user has borrowed this book and hasn't returned it
   const userBorrowRecord = await db
     .select({
@@ -21,7 +23,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     })
     .from(borrowRecords)
     .where(and(
-      eq(borrowRecords.bookId, params.id),
+      eq(borrowRecords.bookId, id),
       eq(borrowRecords.userId, userId),
       eq(borrowRecords.status, "BORROWED")
     ))

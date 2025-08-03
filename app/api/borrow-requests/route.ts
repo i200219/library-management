@@ -10,8 +10,11 @@ export async function GET() {
     const result = await db
         .select({
             id: borrowRecords.id,
+            userId: borrowRecords.userId,
             userName: users.fullName ?? users.fullName,
+            bookId: borrowRecords.bookId,
             bookTitle: books.title,
+            bookCoverUrl: books.coverUrl,
             borrowDate: borrowRecords.borrowDate,
             dueDate: borrowRecords.dueDate,
             status: borrowRecords.status,

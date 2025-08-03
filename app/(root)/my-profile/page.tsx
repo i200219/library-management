@@ -5,6 +5,7 @@ import { signOut } from "@/auth";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import BorrowedBookCard from "@/components/BorrowedBookCard";
+import ReservationsList from "@/components/ReservationsList";
 import { db } from "@/database/drizzle";
 import { borrowRecords, books } from "@/database/schema";
 import { eq, and } from "drizzle-orm";
@@ -159,6 +160,11 @@ const ProfileContent = ({
             ))}
           </div>
         )}
+      </div>
+
+      {/* Reservations Section */}
+      <div className="bg-dark-300/80 backdrop-blur-md rounded-2xl p-6 mt-8">
+        <ReservationsList />
       </div>
     </div>
   );

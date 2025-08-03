@@ -28,11 +28,12 @@ const bebasNeue = localFont({
 export const metadata: Metadata = {
   title: "Library System",
   description: "Library System is a book borrowing university library management solution.",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {

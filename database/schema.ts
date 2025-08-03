@@ -20,6 +20,13 @@ export const BORROW_STATUS_ENUM = pgEnum("borrow_status", [
   "RETURNED",
 ]);
 
+export const RESERVATION_STATUS_ENUM = pgEnum("reservation_status", [
+  "ACTIVE",
+  "FULFILLED",
+  "CANCELLED",
+  "EXPIRED",
+]);
+
 export const users = pgTable("users", {
   id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
   fullName: varchar("full_name", { length: 255 }).notNull(),
@@ -66,4 +73,22 @@ export const borrowRecords = pgTable("borrow_records", {
   returnDate: date("return_date"),
   status: BORROW_STATUS_ENUM("status").default("BORROWED").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
+export const reservations = pgTable("reservations", {
+  id: uuid("id").notNull().primaryKey().defaultRandom().unique(),
+  userId: uuid("user_id")
+    .references(() => users.id)
+    .notNull(),
+  bookId: uuid("book_id")
+    .references(() => books.id)
+    .notNull(),
+  reservationDate: timestamp("reservation_date", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+  expiryDate: timestamp("expiry_date", { withTimezone: true }).notNull(),
+  status: RESERVATION_STATUS_ENUM("status").default("ACTIVE").notNull(),
+  priorityPosition: integer("priority_position").notNull().default(1),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
