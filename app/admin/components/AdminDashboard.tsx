@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface Session {
   user: {
@@ -11,90 +12,120 @@ interface Session {
   };
 }
 
+interface AdminStats {
+  totalBooks: number;
+  availableBooks: number;
+  totalUsers: number;
+  activeBorrows: number;
+}
+
 export default function AdminDashboard({ session }: { session: Session }) {
-  const pathname = usePathname();
+  
+  const [stats, setStats] = useState<AdminStats | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch('/api/admin/stats');
+        if (!response.ok) {
+          throw new Error('Failed to fetch statistics');
+        }
+        const data = await response.json();
+        setStats(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-dark-100 p-3 sm:p-6 lg:p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-red-500 text-sm sm:text-base">{error}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-dark-100 p-8">
+    <div className="min-h-screen bg-dark-100 p-3 sm:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bebas-neue text-white">Admin Dashboard</h1>
-          <div className="flex items-center gap-4">
-            <div className="text-light-100">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bebas-neue text-white">Admin Dashboard</h1>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="text-light-100 text-sm sm:text-base truncate max-w-32 sm:max-w-none">
               {session.user.name}
             </div>
             <button
               onClick={() => window.location.href = '/api/auth/signout'}
-              className="rounded-lg bg-red-600 px-4 py-2 text-white transition-colors hover:bg-red-700"
+              className="rounded-lg bg-red-600 px-3 sm:px-4 py-2 text-white transition-colors hover:bg-red-700 text-sm sm:text-base"
             >
               Sign Out
             </button>
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid gap-6 mb-8 grid-cols-1 md:grid-cols-3">
-          <div className="backdrop-blur-md bg-dark-300/80 rounded-2xl p-6">
-            <h3 className="mb-2 text-xl font-semibold text-light-100">Total Users</h3>
-            <div className="font-bebas-neue text-3xl text-primary">123</div>
-          </div>
-          <div className="backdrop-blur-md bg-dark-300/80 rounded-2xl p-6">
-            <h3 className="mb-2 text-xl font-semibold text-light-100">Active Books</h3>
-            <div className="font-bebas-neue text-3xl text-primary">456</div>
-          </div>
-          <div className="backdrop-blur-md bg-dark-300/80 rounded-2xl p-6">
-            <h3 className="mb-2 text-xl font-semibold text-light-100">Borrowed Books</h3>
-            <div className="font-bebas-neue text-3xl text-primary">78</div>
-          </div>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+          {stats ? (
+            <>
+              <div className="bg-dark-200 rounded-lg p-3 sm:p-6">
+                <h3 className="text-sm sm:text-xl font-semibold mb-1 sm:mb-2 text-white">Total Books</h3>
+                <p className="text-xl sm:text-3xl font-bold text-blue-500">{stats.totalBooks}</p>
+              </div>
+              <div className="bg-dark-200 rounded-lg p-3 sm:p-6">
+                <h3 className="text-sm sm:text-xl font-semibold mb-1 sm:mb-2 text-white">Available Books</h3>
+                <p className="text-xl sm:text-3xl font-bold text-green-500">{stats.availableBooks}</p>
+              </div>
+              <div className="bg-dark-200 rounded-lg p-3 sm:p-6">
+                <h3 className="text-sm sm:text-xl font-semibold mb-1 sm:mb-2 text-white">Total Users</h3>
+                <p className="text-xl sm:text-3xl font-bold text-purple-500">{stats.totalUsers}</p>
+              </div>
+              <div className="bg-dark-200 rounded-lg p-3 sm:p-6">
+                <h3 className="text-sm sm:text-xl font-semibold mb-1 sm:mb-2 text-white">Active Borrowings</h3>
+                <p className="text-xl sm:text-3xl font-bold text-yellow-500">{stats.activeBorrows}</p>
+              </div>
+            </>
+          ) : (
+            <div className="col-span-2 lg:col-span-4 text-center py-6 sm:py-8">
+              <div className="animate-pulse">
+                <div className="bg-dark-200 rounded-lg p-4 sm:p-6">
+                  <div className="h-6 sm:h-8 bg-gray-700 rounded mb-2"></div>
+                  <div className="h-8 sm:h-12 bg-gray-700 rounded"></div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Navigation Grid */}
-        <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          <Link
-            href="/admin/users"
-            className={`
-              ${pathname === '/admin/users' ? 'ring-2 ring-primary' : ''}
-              backdrop-blur-md bg-dark-300/80 rounded-2xl p-6 transition-all
-              hover:bg-dark-300/90 hover:shadow-lg
-              flex flex-col items-center gap-4 cursor-pointer
-            `}
-          >
-            <div className="text-4xl text-primary">👤</div>
-            <h3 className="text-xl font-semibold text-light-100">Manage Users</h3>
-            <p className="text-center text-light-200">
-              View and manage all library users and their permissions
-            </p>
-          </Link>
+        {/* Navigation Links */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <Link
             href="/admin/books"
-            className={`
-              ${pathname === '/admin/books' ? 'ring-2 ring-primary' : ''}
-              backdrop-blur-md bg-dark-300/80 rounded-2xl p-6 transition-all
-              hover:bg-dark-300/90 hover:shadow-lg
-              flex flex-col items-center gap-4 cursor-pointer
-            `}
+            className="bg-dark-200 rounded-lg p-4 sm:p-6 hover:bg-dark-300 transition-colors"
           >
-            <div className="text-4xl text-primary">📚</div>
-            <h3 className="text-xl font-semibold text-light-100">Manage Books</h3>
-            <p className="text-center text-light-200">
-              Add, edit, and manage the library's book collection
-            </p>
+            <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-white">Manage Books</h3>
+            <p className="text-gray-400 text-sm sm:text-base">View and manage the library collection</p>
           </Link>
           <Link
-            href="/admin/reports"
-            className={`
-              ${pathname === '/admin/reports' ? 'ring-2 ring-primary' : ''}
-              backdrop-blur-md bg-dark-300/80 rounded-2xl p-6 transition-all
-              hover:bg-dark-300/90 hover:shadow-lg
-              flex flex-col items-center gap-4 cursor-pointer
-            `}
+            href="/admin/users"
+            className="bg-dark-200 rounded-lg p-4 sm:p-6 hover:bg-dark-300 transition-colors"
           >
-            <div className="text-4xl text-primary">📊</div>
-            <h3 className="text-xl font-semibold text-light-100">View Reports</h3>
-            <p className="text-center text-light-200">
-              Generate and view library usage statistics and reports
-            </p>
+            <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-white">Manage Users</h3>
+            <p className="text-gray-400 text-sm sm:text-base">Manage library users and accounts</p>
+          </Link>
+          <Link
+            href="/admin/book-requests"
+            className="bg-dark-200 rounded-lg p-4 sm:p-6 hover:bg-dark-300 transition-colors"
+          >
+            <h3 className="text-lg sm:text-xl font-semibold mb-1 sm:mb-2 text-white">Book Requests</h3>
+            <p className="text-gray-400 text-sm sm:text-base">View and handle book borrowing requests</p>
           </Link>
         </div>
       </div>

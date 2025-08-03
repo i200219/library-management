@@ -14,12 +14,14 @@ interface Props {
     isEligible: boolean;
     message: string;
   };
+  onBorrowSuccess?: () => Promise<void> | void;
 }
 
 const BorrowBook = ({
   userId,
   bookId,
   borrowingEligibility: { isEligible, message },
+  onBorrowSuccess,
 }: Props) => {
   const router = useRouter();
   const [borrowing, setBorrowing] = useState(false);
@@ -31,6 +33,7 @@ const BorrowBook = ({
         description: message,
         variant: "destructive",
       });
+      return;
     }
 
     setBorrowing(true);
@@ -43,6 +46,11 @@ const BorrowBook = ({
           title: "Success",
           description: "Book borrowed successfully",
         });
+
+        // Call the callback to refresh availability status
+        if (onBorrowSuccess) {
+          await onBorrowSuccess();
+        }
 
         router.push("/");
       } else {

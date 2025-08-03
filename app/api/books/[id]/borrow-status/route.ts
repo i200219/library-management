@@ -1,18 +1,41 @@
 import { NextResponse } from "next/server";
 import { db } from "@/database/drizzle";
 import { borrowRecords } from "@/database/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
-  const result = await db
-    .select()
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get('userId');
+
+  if (!userId) {
+    return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+  }
+
+  // Check if the specific user has borrowed this book and hasn't returned it
+  const userBorrowRecord = await db
+    .select({
+      id: borrowRecords.id,
+      dueDate: borrowRecords.dueDate,
+      borrowDate: borrowRecords.borrowDate,
+      status: borrowRecords.status,
+    })
     .from(borrowRecords)
-    .where(eq(borrowRecords.bookId, params.id));
-  if (result.length > 0) {
+    .where(and(
+      eq(borrowRecords.bookId, params.id),
+      eq(borrowRecords.userId, userId),
+      eq(borrowRecords.status, "BORROWED")
+    ))
+    .limit(1);
+
+  if (userBorrowRecord.length > 0) {
     return NextResponse.json({
-      isBorrowed: true,
-      dueDate: result[0].dueDate,
+      isBorrowedByUser: true,
+      borrowRecord: userBorrowRecord[0],
     });
   }
-  return NextResponse.json({ isBorrowed: false });
+
+  return NextResponse.json({
+    isBorrowedByUser: false,
+    borrowRecord: null
+  });
 }

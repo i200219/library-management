@@ -71,11 +71,11 @@ const AuthForm = <T extends FieldValues>({
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-semibold text-white">
+    <div className="flex flex-col gap-3 sm:gap-4">
+      <h1 className="text-lg sm:text-2xl font-semibold text-white">
         {isSignIn ? "Welcome to the USIU Library System" : "Create your library account"}
       </h1>
-      <p className="text-light-100">
+      <p className="text-sm sm:text-base text-light-100">
         {isSignIn
           ? "Access the vast collection of resources, and stay updated"
           : "Please complete all fields to create your account and gain access to the library's resources."}
@@ -83,7 +83,7 @@ const AuthForm = <T extends FieldValues>({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="w-full space-y-6"
+          className="w-full space-y-4 sm:space-y-6"
         >
           {Object.keys(defaultValues).map((field) => (
             <FormField
@@ -92,7 +92,7 @@ const AuthForm = <T extends FieldValues>({
               name={field as Path<T>}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="capitalize">
+                  <FormLabel className="capitalize text-sm sm:text-base">
                     {FIELD_NAMES[field.name as keyof typeof FIELD_NAMES]}
                   </FormLabel>
                   <FormControl>
@@ -128,7 +128,7 @@ const AuthForm = <T extends FieldValues>({
         </form>
       </Form>
 
-      <p className="text-center text-base font-medium">
+      <p className="text-center text-sm sm:text-base font-medium">
         {isSignIn ? "New to this system? " : "Already have an account? "}
 
         <Link

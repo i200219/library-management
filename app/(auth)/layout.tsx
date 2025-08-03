@@ -13,9 +13,9 @@ const Layout = async ({ children }: { children: ReactNode }) => {
     <main className="auth-container">
       <section className="auth-form">
         <div className="auth-box">
-          <div className="flex flex-row gap-3">
-            <Image src="/icons/logo.svg" alt="logo" width={37} height={37} />
-            <h1 className="text-2xl font-semibold text-white">USIU Library System</h1>
+          <div className="flex flex-row gap-2 sm:gap-3 items-center">
+            <Image src="/icons/logo.svg" alt="logo" width={32} height={32} className="sm:w-[37px] sm:h-[37px]" />
+            <h1 className="text-lg sm:text-2xl font-semibold text-white">USIU Library System</h1>
           </div>
 
           <div>{children}</div>

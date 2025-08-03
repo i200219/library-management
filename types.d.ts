@@ -67,6 +67,19 @@ interface BorrowBookParams {
   bookId: string;
   userId: string;
 }
+
+interface BookRequest {
+  id: string;
+  userId: string;
+  userName: string;
+  bookId: string;
+  bookTitle: string;
+  borrowDate: string | Date;
+  dueDate: string | Date;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  reason?: string;
+}
+
 export interface CreateBookResponse {
   success: boolean;
   data?: books;

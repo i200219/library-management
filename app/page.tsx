@@ -40,41 +40,41 @@ export default async function LandingPage() {
       <div className="absolute inset-0 bg-dark-100 bg-opacity-60" />
 
       {/* Navigation */}
-      <nav className="relative z-20 flex items-center justify-between px-5 py-6 xs:px-10 md:px-16">
-        <div className="flex items-center gap-3">
+      <nav className="relative z-20 flex items-center justify-between px-3 sm:px-5 py-4 sm:py-6 xs:px-10 md:px-16">
+        <div className="flex items-center gap-2 sm:gap-3">
           <Image
             src="/icons/logo.svg"
             alt="Library Logo"
-            width={40}
-            height={40}
-            className="w-10 h-10"
+            width={32}
+            height={32}
+            className="w-8 h-8 sm:w-10 sm:h-10"
           />
-          <h1 className="text-2xl font-bebas-neue text-white">USIU Library</h1>
+          <h1 className="text-lg sm:text-2xl font-bebas-neue text-white">USIU Library</h1>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1 sm:gap-2 lg:gap-4">
           <ThemeToggle />
           <Link
             href="/about"
-            className="px-4 py-2 text-light-100 hover:text-primary transition-colors duration-200 font-medium"
+            className="hidden sm:block px-2 lg:px-4 py-2 text-light-100 hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base"
           >
             About
           </Link>
           <Link
             href="/contact"
-            className="px-4 py-2 text-light-100 hover:text-primary transition-colors duration-200 font-medium"
+            className="hidden sm:block px-2 lg:px-4 py-2 text-light-100 hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base"
           >
             Contact
           </Link>
           <Link
             href="/sign-in"
-            className="px-6 py-2 text-light-100 hover:text-primary transition-colors duration-200 font-medium"
+            className="px-3 sm:px-4 lg:px-6 py-2 text-light-100 hover:text-primary transition-colors duration-200 font-medium text-sm lg:text-base"
           >
             Sign In
           </Link>
           <Link
             href="/sign-up"
-            className="px-6 py-3 bg-primary text-dark-100 hover:bg-primary/90 transition-colors duration-200 rounded-md font-semibold"
+            className="px-3 sm:px-4 lg:px-6 py-2 sm:py-3 bg-primary text-dark-100 hover:bg-primary/90 transition-colors duration-200 rounded-md font-semibold text-sm lg:text-base"
           >
             Sign Up
           </Link>
@@ -82,31 +82,31 @@ export default async function LandingPage() {
       </nav>
 
       {/* Welcome Content */}
-      <div className="relative z-10 flex items-center justify-center h-full">
-        <div className="text-center px-6 max-w-4xl mx-auto">
+      <div className="relative z-10 flex items-center justify-center h-full px-3 sm:px-6">
+        <div className="text-center max-w-4xl mx-auto w-full">
           {/* Main Welcome Text */}
-          <div className="welcome-container bg-dark-300 bg-opacity-80 backdrop-blur-sm rounded-2xl p-8 border border-dark-600 shadow-2xl">
-            <h1 className="welcome-title text-white mb-4 tracking-wide">
+          <div className="welcome-container bg-dark-300 bg-opacity-80 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-dark-600 shadow-2xl">
+            <h1 className="welcome-title text-white mb-3 sm:mb-4 tracking-wide">
               Welcome to
             </h1>
-            <h2 className="library-name text-primary mb-6 tracking-wider">
+            <h2 className="library-name text-primary mb-4 sm:mb-6 tracking-wider">
               USIU Library
             </h2>
-            <p className="welcome-description text-light-100 mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="welcome-description text-light-100 mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
               Discover knowledge, explore resources, and unlock your potential in our modern learning environment
             </p>
             
             {/* Call to Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <Link
                 href="/sign-up"
-                className="cta-button bg-primary text-dark-100 px-8 py-3 rounded-full hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="cta-button bg-primary text-dark-100 px-6 sm:px-8 py-3 rounded-full hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
               >
                 Get Started
               </Link>
               <Link
                 href="/sign-in"
-                className="cta-button-secondary border-2 border-primary text-primary px-8 py-3 rounded-full hover:bg-primary hover:text-dark-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="cta-button-secondary border-2 border-primary text-primary px-6 sm:px-8 py-3 rounded-full hover:bg-primary hover:text-dark-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 w-full sm:w-auto text-sm sm:text-base"
               >
                 Sign In
               </Link>

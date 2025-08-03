@@ -12,12 +12,12 @@ interface HeaderProps {
 
 const Header = ({ session }: HeaderProps) => {
   return (
-    <header className="my-10 flex justify-between gap-5">
+    <header className="my-6 sm:my-10 flex justify-between items-center gap-3 sm:gap-5">
       <Link href="/">
-        <Image src="/icons/logo.svg" alt="logo" width={40} height={40} />
+        <Image src="/icons/logo.svg" alt="logo" width={32} height={32} className="sm:w-10 sm:h-10" />
       </Link>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 sm:gap-4">
         <ThemeToggle />
         <UserProfile user={session.user} />
       </div>

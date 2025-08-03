@@ -7,9 +7,19 @@ import { cn, getInitials } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Session } from "next-auth";
+import { useEffect } from "react";
 
 const Sidebar = ({ session }: { session: Session }) => {
   const pathname = usePathname();
+
+  useEffect(() => {
+    console.log("Sidebar mounted with pathname:", pathname);
+  }, [pathname]);
+
+  if (!pathname) {
+    console.error("Pathname is not available in Sidebar");
+    return null;
+  }
 
   return (
     <div className="admin-sidebar">
@@ -66,9 +76,9 @@ const Sidebar = ({ session }: { session: Session }) => {
           </AvatarFallback>
         </Avatar>
 
-        <div className="flex flex-col max-md:hidden">
-          <p className="font-semibold text-dark-200">{session?.user?.name}</p>
-          <p className="text-xs text-light-500">{session?.user?.email}</p>
+        <div className="flex flex-col hidden lg:block">
+          <p className="font-semibold text-dark-200 text-sm">{session?.user?.name}</p>
+          <p className="text-xs text-light-500 truncate">{session?.user?.email}</p>
         </div>
       </div>
     </div>

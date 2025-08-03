@@ -28,6 +28,11 @@ const bebasNeue = localFont({
 export const metadata: Metadata = {
   title: "Library System",
   description: "Library System is a book borrowing university library management solution.",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
 };
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
@@ -35,9 +40,12 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      </head>
       <SessionProvider session={session}>
         <ThemeProvider defaultTheme="dark" storageKey="library-theme">
-          <body className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased`}>
+          <body className={`${ibmPlexSans.className} ${bebasNeue.variable} antialiased overflow-x-hidden`}>
             {children}
             <Footer />
             <Toaster />

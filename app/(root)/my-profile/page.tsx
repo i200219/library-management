@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { signOut } from "@/auth";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import BookList from "@/components/BookList";
+import BorrowedBookCard from "@/components/BorrowedBookCard";
 import { db } from "@/database/drizzle";
 import { borrowRecords, books } from "@/database/schema";
 import { eq, and } from "drizzle-orm";
@@ -127,23 +127,37 @@ const ProfileContent = ({
         </div>
       </div>
 
-      {/* Book List Section */}
+      {/* Borrowed Books Section */}
       <div className="bg-dark-300/80 backdrop-blur-md rounded-2xl p-6">
         <h2 className="text-2xl font-bebas-neue text-white mb-6">
-          Borrowed Books
+          Borrowed Books ({borrowedBooks.length})
         </h2>
         {borrowedBooks.length === 0 ? (
-          <p className="text-light-100 text-center">No books currently borrowed</p>
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">📚</div>
+            <p className="text-light-100 text-lg mb-4">No books currently borrowed</p>
+            <Link href="/books">
+              <Button className="bg-primary text-dark-100 hover:bg-primary/90">
+                Browse Books
+              </Button>
+            </Link>
+          </div>
         ) : (
-          <BookList
-            books={borrowedBooks.map((book) => ({
-              ...book,
-              id: book.id.toString(),
-              dueDate: book.dueDate?.toString() || "",
-              borrowDate: book.borrowDate?.toString() || "",
-              createdAt: book.createdAt?.toString() || "",
-            }))}
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            {borrowedBooks.map((book) => (
+              <BorrowedBookCard
+                key={book.id}
+                book={{
+                  ...book,
+                  id: book.id.toString(),
+                  dueDate: book.dueDate?.toString() || "",
+                  borrowDate: book.borrowDate?.toString() || "",
+                  createdAt: book.createdAt?.toString() || "",
+                }}
+                userId={session.user.id}
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>
